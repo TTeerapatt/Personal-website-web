@@ -9,7 +9,7 @@ anchors. There are no other routes.
 
 ## Getting started
 
-Requires the API to be running (default `http://localhost:3001`).
+Requires the API to be running (default `http://localhost:3006`).
 
 ```bash
 cp .env.example .env.local   # then adjust NEXT_PUBLIC_BACKEND_URL if needed
@@ -24,8 +24,7 @@ Open http://localhost:3000/personal-website — note the `/personal-website`
 
 | Variable | Required | Purpose |
 |----------|----------|---------|
-| `NEXT_PUBLIC_BACKEND_URL` | yes | API base URL used by the browser, baked in at build time. Must include the `/personal-website/api/` prefix and a trailing slash. |
-| `BACKEND_INTERNAL_URL` | no | API base URL used during server rendering, for when the API is reachable at a different address than the browser uses (e.g. a Docker service name). Falls back to `NEXT_PUBLIC_BACKEND_URL`. |
+| `NEXT_PUBLIC_BACKEND_URL` | yes | API base URL, baked in at build time. Must include the `/personal-website/api/` prefix and a trailing slash. Example: `http://localhost:3006/personal-website/api/` |
 
 ## Scripts
 

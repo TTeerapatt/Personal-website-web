@@ -1,10 +1,20 @@
-import { resolveBackendOrigin } from "./apiConfig";
-
 /**
  * The API builds upload URLs from the request `Host` header and falls back to a
  * relative `/upload/...` path when that header is missing. Absolutize those so
  * media still loads when the web app runs on a different origin than the API.
  */
+function resolveBackendOrigin(): string {
+  const baseUrl =
+    process.env.NEXT_PUBLIC_BACKEND_URL ||
+    "http://localhost:3006/personal-website/api/";
+
+  try {
+    return new URL(baseUrl).origin;
+  } catch {
+    return "";
+  }
+}
+
 export function resolveMediaUrl(
   url: string | null | undefined
 ): string | null {

@@ -1,19 +1,18 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { resolveBackendBaseUrl } from "@/app/lib/apiConfig";
+
+const base_url =
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  "http://localhost:3006/personal-website/api/";
 
 const axiosConfig: AxiosRequestConfig = {
-  baseURL: resolveBackendBaseUrl(),
-  timeout: 20000,
+  baseURL: base_url,
+  timeout: 40000,
 };
 
 const apiServices = axios.create(axiosConfig);
 
 apiServices.interceptors.request.use(
   (config) => {
-    config.headers = Object.assign({}, config.headers, {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    });
     return config;
   },
   (error) => {
@@ -26,14 +25,7 @@ apiServices.interceptors.response.use(
     return response;
   },
   (error) => {
-    // Log a one-line summary. Printing the Axios error itself dumps the whole
-    // request object, which floods the server log on every failed render.
-    const { method, baseURL, url } = error?.config ?? {};
-    const target = `${(method ?? "get").toUpperCase()} ${baseURL ?? ""}${url ?? ""}`;
-    const status = error?.response?.status ?? error?.code ?? "no response";
-    const reason = error?.response?.data?.message ?? error?.message;
-
-    console.error(`API Error: ${target} -> ${status}${reason ? ` (${reason})` : ""}`);
+    console.error("API Error:", error);
     return Promise.reject(error?.response?.data || error);
   }
 );

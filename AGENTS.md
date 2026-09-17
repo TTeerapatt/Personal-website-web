@@ -36,7 +36,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 - **ชื่อ:** `personal-website-web` (Next.js App Router, Next 16)
 - **basePath:** `/personal-website`
-- **Backend:** `NEXT_PUBLIC_BACKEND_URL` เช่น `http://localhost:3001/personal-website/api/`
+- **Backend:** `NEXT_PUBLIC_BACKEND_URL` เช่น `http://localhost:3006/personal-website/api/`
   (ต้องมี prefix `/personal-website/api/` และปิดท้ายด้วย `/`)
 - **พอร์ต Docker/Jenkins:** `3008` (api = `3006`, admin = `3007`)
 - **ไม่มี auth** — เรียกเฉพาะ public endpoint เท่านั้น
@@ -56,8 +56,7 @@ Docker URL: `http://localhost:3008/personal-website`
 ### Env
 
 ```
-NEXT_PUBLIC_BACKEND_URL=   # browser เรียก (bake ตอน build)
-BACKEND_INTERNAL_URL=      # optional — ใช้ตอน server render (เช่นชื่อ service ใน docker)
+NEXT_PUBLIC_BACKEND_URL=http://localhost:3006/personal-website/api/
 ```
 
 ดูตัวอย่างที่ `.env.example`
@@ -81,7 +80,6 @@ Personal-website-web/
     ├── messages/{en,th}/main.json  # ข้อความ UI ทั้งหมด
     ├── types/content.ts            # type ของ payload จาก API
     ├── lib/
-    │   ├── apiConfig.ts            # resolve base URL (browser / server)
     │   ├── websiteContent.ts       # โหลด + normalize payload, คำนวณ section ที่จะโชว์
     │   ├── locale.ts               # SUPPORTED_LOCALES, cookie, pickLocalized()
     │   ├── localeActions.ts        # Server Action เซ็ต cookie ภาษา

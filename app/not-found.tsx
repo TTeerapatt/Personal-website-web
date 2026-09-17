@@ -2,10 +2,6 @@ import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { HiOutlineArrowLeft } from "react-icons/hi";
 
-/**
- * Safety net only. `proxy.ts` redirects unmatched paths to the landing page, so
- * this renders just if the request somehow bypasses that.
- */
 export default async function NotFound() {
   const t = await getTranslations("common");
   const tMain = await getTranslations("main");

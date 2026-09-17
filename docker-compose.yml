@@ -4,7 +4,6 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        # Browser-facing API URL (baked at build time)
         NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL:-http://localhost:3006/personal-website/api/}
     image: personal-website-web:latest
     container_name: personal-website-web
@@ -15,9 +14,6 @@ services:
       NODE_ENV: production
       PORT: 3008
       HOSTNAME: 0.0.0.0
-      # Server-side rendering reaches the API directly. Defaults to the
-      # browser-facing URL when unset.
-      BACKEND_INTERNAL_URL: ${BACKEND_INTERNAL_URL:-}
     healthcheck:
       test:
         [

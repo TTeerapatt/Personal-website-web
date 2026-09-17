@@ -19,11 +19,6 @@ pipeline {
       description: 'Backend URL ที่ browser เรียก (bake ตอน build Next.js) — production ใช้โดเมน public'
     )
     string(
-      name: 'BACKEND_INTERNAL_URL',
-      defaultValue: '',
-      description: 'Backend URL ที่ใช้ตอน server render (ว่างไว้ = ใช้ค่าเดียวกับ NEXT_PUBLIC_BACKEND_URL)'
-    )
-    string(
       name: 'WEB_PORT',
       defaultValue: '3008',
       description: 'พอร์ตบน host ที่ map ไป container web (host:container → WEB_PORT:3008)'
@@ -34,7 +29,6 @@ pipeline {
     COMPOSE_PROJECT_NAME = 'personal-website-web'
     IMAGE_NAME = 'personal-website-web'
     NEXT_PUBLIC_BACKEND_URL = "${params.NEXT_PUBLIC_BACKEND_URL}"
-    BACKEND_INTERNAL_URL = "${params.BACKEND_INTERNAL_URL}"
     WEB_PORT = "${params.WEB_PORT}"
   }
 
@@ -50,7 +44,6 @@ pipeline {
         sh '''
           set -e
           export NEXT_PUBLIC_BACKEND_URL="${NEXT_PUBLIC_BACKEND_URL}"
-          export BACKEND_INTERNAL_URL="${BACKEND_INTERNAL_URL}"
           export WEB_PORT="${WEB_PORT}"
           docker compose build personal-website-web
         '''
@@ -65,7 +58,6 @@ pipeline {
         sh '''
           set -e
           export NEXT_PUBLIC_BACKEND_URL="${NEXT_PUBLIC_BACKEND_URL}"
-          export BACKEND_INTERNAL_URL="${BACKEND_INTERNAL_URL}"
           export WEB_PORT="${WEB_PORT}"
           docker compose up -d --remove-orphans personal-website-web
         '''

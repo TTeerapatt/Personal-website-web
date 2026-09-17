@@ -16,11 +16,6 @@ import StateNotice from "./components/ui/StateNotice";
 import { pickLocalized, toAppLocale } from "./lib/locale";
 import { getVisibleSections, loadWebsiteContent } from "./lib/websiteContent";
 
-/**
- * The only route on this site. Everything is driven by
- * `GET /public/content`, whose `settings.show_*` flags decide which sections
- * the admin has published.
- */
 export default async function HomePage() {
   const locale = toAppLocale(await getLocale());
   const t = await getTranslations("main");
