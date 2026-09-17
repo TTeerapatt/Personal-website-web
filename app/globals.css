@@ -41,7 +41,6 @@ option {
   background: var(--surface);
   color: var(--text-primary);
 }
-
 /* Hide browser native password reveal so custom toggle is the only control */
 input[type="password"]::-ms-reveal,
 input[type="password"]::-ms-clear,
@@ -375,3 +374,4 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
   pointer-events: none;
   color: var(--text-muted);
 }
+
