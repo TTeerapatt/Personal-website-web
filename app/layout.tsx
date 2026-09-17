@@ -13,8 +13,8 @@ const notoThai = Noto_Sans_Thai({
 
 
 export const metadata: Metadata = {
-  title: "Personal Website Admin",
-  description: "Personal Website Admin",
+  title: "Personal Website Web",
+  description: "Personal Website Web",
 };
 
 export default async function RootLayout({
