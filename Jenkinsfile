@@ -19,17 +19,23 @@ pipeline {
       description: 'Backend URL ที่ browser เรียก (bake ตอน build Next.js) — production ใช้โดเมน public'
     )
     string(
-      name: 'ADMIN_PORT',
-      defaultValue: '3007',
-      description: 'พอร์ตบน host ที่ map ไป container admin (host:container → ADMIN_PORT:3007)'
+      name: 'BACKEND_INTERNAL_URL',
+      defaultValue: '',
+      description: 'Backend URL ที่ใช้ตอน server render (ว่างไว้ = ใช้ค่าเดียวกับ NEXT_PUBLIC_BACKEND_URL)'
+    )
+    string(
+      name: 'WEB_PORT',
+      defaultValue: '3008',
+      description: 'พอร์ตบน host ที่ map ไป container web (host:container → WEB_PORT:3008)'
     )
   }
 
   environment {
-    COMPOSE_PROJECT_NAME = 'personal-website-admin'
-    IMAGE_NAME = 'personal-website-admin'
+    COMPOSE_PROJECT_NAME = 'personal-website-web'
+    IMAGE_NAME = 'personal-website-web'
     NEXT_PUBLIC_BACKEND_URL = "${params.NEXT_PUBLIC_BACKEND_URL}"
-    ADMIN_PORT = "${params.ADMIN_PORT}"
+    BACKEND_INTERNAL_URL = "${params.BACKEND_INTERNAL_URL}"
+    WEB_PORT = "${params.WEB_PORT}"
   }
 
   stages {
@@ -44,8 +50,9 @@ pipeline {
         sh '''
           set -e
           export NEXT_PUBLIC_BACKEND_URL="${NEXT_PUBLIC_BACKEND_URL}"
-          export ADMIN_PORT="${ADMIN_PORT}"
-          docker compose build personal-website-admin
+          export BACKEND_INTERNAL_URL="${BACKEND_INTERNAL_URL}"
+          export WEB_PORT="${WEB_PORT}"
+          docker compose build personal-website-web
         '''
       }
     }
@@ -58,8 +65,9 @@ pipeline {
         sh '''
           set -e
           export NEXT_PUBLIC_BACKEND_URL="${NEXT_PUBLIC_BACKEND_URL}"
-          export ADMIN_PORT="${ADMIN_PORT}"
-          docker compose up -d --remove-orphans personal-website-admin
+          export BACKEND_INTERNAL_URL="${BACKEND_INTERNAL_URL}"
+          export WEB_PORT="${WEB_PORT}"
+          docker compose up -d --remove-orphans personal-website-web
         '''
       }
     }
@@ -71,17 +79,17 @@ pipeline {
       steps {
         sh '''
           set -e
-          echo "Waiting for admin on :${ADMIN_PORT}/personal-website/admin ..."
+          echo "Waiting for web on :${WEB_PORT}/personal-website ..."
           for i in $(seq 1 30); do
-            code="$(curl -s -o /dev/null -w "%{http_code}" "http://127.0.0.1:${ADMIN_PORT}/personal-website/admin" || true)"
+            code="$(curl -s -o /dev/null -w "%{http_code}" "http://127.0.0.1:${WEB_PORT}/personal-website" || true)"
             if echo "$code" | grep -Eq '^[123]'; then
-              echo "Admin is healthy (HTTP $code)"
+              echo "Web is healthy (HTTP $code)"
               exit 0
             fi
             if [ "$i" -eq 30 ]; then
-              echo "Admin health check failed (HTTP $code)"
+              echo "Web health check failed (HTTP $code)"
               docker compose ps || true
-              docker compose logs --tail=80 personal-website-admin || true
+              docker compose logs --tail=80 personal-website-web || true
               exit 1
             fi
             sleep 2
@@ -93,10 +101,10 @@ pipeline {
 
   post {
     success {
-      echo "personal-website-admin #${env.BUILD_NUMBER} succeeded → http://127.0.0.1:${params.ADMIN_PORT}/personal-website/admin"
+      echo "personal-website-web #${env.BUILD_NUMBER} succeeded → http://127.0.0.1:${params.WEB_PORT}/personal-website"
     }
     failure {
-      echo "personal-website-admin #${env.BUILD_NUMBER} failed"
+      echo "personal-website-web #${env.BUILD_NUMBER} failed"
       sh 'docker compose ps || true'
     }
   }

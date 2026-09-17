@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Personal Website — Web (Landing page)
 
-## Getting Started
+Public landing page for the Personal Website project. Built with Next.js (App
+Router) and Tailwind CSS v4. All content is authored in
+`Personal-website-admin` and served by `Personal-website-api`.
 
-First, run the development server:
+This is a **single-page site**: every section lives on `/` and navigation uses
+anchors. There are no other routes.
+
+## Getting started
+
+Requires the API to be running (default `http://localhost:3001`).
 
 ```bash
+cp .env.example .env.local   # then adjust NEXT_PUBLIC_BACKEND_URL if needed
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000/personal-website — note the `/personal-website`
+`basePath` configured in `next.config.ts`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `NEXT_PUBLIC_BACKEND_URL` | yes | API base URL used by the browser, baked in at build time. Must include the `/personal-website/api/` prefix and a trailing slash. |
+| `BACKEND_INTERNAL_URL` | no | API base URL used during server rendering, for when the API is reachable at a different address than the browser uses (e.g. a Docker service name). Falls back to `NEXT_PUBLIC_BACKEND_URL`. |
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run dev         # development server
+npm run build       # production build (output: standalone)
+npm run start       # serve the production build
+npm run lint        # eslint
+npm run typecheck   # tsc --noEmit
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## How content reaches the page
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`app/page.tsx` renders on the server and makes a single request:
 
-## Deploy on Vercel
+```
+GET {NEXT_PUBLIC_BACKEND_URL}public/content
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The API returns the `site_settings.show_*` flags plus only the sections that
+are enabled, already filtered to `deleted_at IS NULL AND is_active = TRUE` and
+ordered by `display_order`. A section is rendered when its flag is on *and* it
+has content, so toggling a section off in the admin removes it from the page
+and from the navigation.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Sections, in page order: banners (hero), about, skills, projects, experiences,
+education, contact.
+
+The page also sends `POST website-visits/track` once per browser session.
+
+## Language
+
+Thai and English, selected with the header switcher and stored in the
+`personal_website_locale` cookie. UI strings live in `app/messages/{en,th}/main.json`;
+content uses the API's paired `*_th` / `*_en` fields with fallback to the other
+language when one is blank.
+
+## Docker
+
+```bash
+NEXT_PUBLIC_BACKEND_URL=https://example.com/personal-website/api/ \
+  docker compose up -d --build personal-website-web
+```
+
+Serves on `${WEB_PORT:-3008}` → `http://localhost:3008/personal-website`.
+
+## Conventions
+
+See [AGENTS.md](./AGENTS.md) for folder layout, server/client component rules,
+and the checklist to run before finishing a change.

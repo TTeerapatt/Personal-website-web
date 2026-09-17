@@ -1,23 +1,41 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+   Design tokens — white + navy, matching the admin brand palette
+   --------------------------------------------------------------------------- */
 :root {
   --background: #f5f7fb;
   --foreground: #0b1b34;
+
   --brand-primary: #0b1f3a;
   --brand-accent: #1e3a5f;
+  --brand-highlight: #2f6fed;
   --brand-soft: #dbe4f0;
+
   --canvas: #f5f7fb;
   --surface: #ffffff;
   --surface-raised: #ffffff;
   --surface-muted: #eef2f7;
   --surface-soft: #e8eef6;
+
   --border: rgba(11, 31, 58, 0.12);
   --border-strong: rgba(11, 31, 58, 0.22);
+
   --text-primary: #0b1b34;
   --text-secondary: #4a5d78;
   --text-muted: #7a8ba3;
+  --text-inverse: #f7fafd;
+
   --danger: #c0392b;
   --success: #1f7a4d;
+
+  --shadow-card: 0 1px 2px rgba(11, 31, 58, 0.04),
+    0 8px 24px rgba(11, 31, 58, 0.06);
+  --shadow-card-hover: 0 2px 4px rgba(11, 31, 58, 0.06),
+    0 18px 40px rgba(11, 31, 58, 0.12);
+
+  /* Sticky header height, also used as scroll offset for anchor links. */
+  --header-height: 4rem;
 }
 
 @theme inline {
@@ -26,352 +44,341 @@
   --font-sans: var(--font-noto-thai);
 }
 
+@media (min-width: 1024px) {
+  :root {
+    --header-height: 4.5rem;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
+* {
+  min-width: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Keeps anchored sections clear of the sticky header. */
+  scroll-padding-top: var(--header-height);
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-noto-thai), "Noto Sans Thai", sans-serif;
+  /* Prevents horizontal scroll from decorative, off-canvas glow elements. */
+  overflow-x: hidden;
 }
 
 ::selection {
-  background: rgba(11, 31, 58, 0.18);
+  background: rgba(47, 111, 237, 0.18);
   color: var(--text-primary);
 }
 
-option {
-  background: var(--surface);
-  color: var(--text-primary);
+:focus-visible {
+  outline: 2px solid var(--brand-highlight);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
-/* Hide browser native password reveal so custom toggle is the only control */
-input[type="password"]::-ms-reveal,
-input[type="password"]::-ms-clear,
-input[type="password"]::-webkit-credentials-auto-fill-button {
+
+img,
+video {
+  max-width: 100%;
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll reveal
+   The initial hidden state lives in CSS so it is present in the server HTML;
+   an IntersectionObserver adds `data-revealed="true"` to play the animation.
+   The <noscript> and reduced-motion rules guarantee content is always readable.
+   --------------------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal[data-revealed="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .animate-float,
+  .animate-marquee,
+  .animate-caret {
+    animation: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Animations
+   --------------------------------------------------------------------------- */
+@keyframes floatSoft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.5rem);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes caretBlink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  55%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-float {
+  animation: floatSoft 6s ease-in-out infinite;
+}
+
+.animate-marquee {
+  animation: marquee var(--marquee-duration, 32s) linear infinite;
+}
+
+.animate-caret {
+  animation: caretBlink 1s step-end infinite;
+}
+
+.marquee-track:hover .animate-marquee,
+.marquee-track:focus-within .animate-marquee {
+  animation-play-state: paused;
+}
+
+/* ---------------------------------------------------------------------------
+   Utilities
+   --------------------------------------------------------------------------- */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
-.app-swal-popup {
-  border-radius: 16px !important;
-  box-shadow: 0 12px 32px rgba(11, 31, 58, 0.16) !important;
-  overflow: hidden !important;
+.text-balance {
+  text-wrap: balance;
 }
 
-.app-swal-timer-bar {
-  background: var(--brand-primary) !important;
-  height: 4px !important;
+.text-pretty {
+  text-wrap: pretty;
 }
 
-.swal2-timer-progress-bar-container {
-  position: absolute !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  height: 4px !important;
-  overflow: hidden !important;
-  border-bottom-left-radius: 16px !important;
-  border-bottom-right-radius: 16px !important;
-  background: rgba(11, 31, 58, 0.08) !important;
-}
-
-.app-swal-icon {
-  margin: 0.15rem auto 0.85rem !important;
-  border-color: var(--brand-primary) !important;
-  color: var(--brand-primary) !important;
-}
-
-.app-swal-title {
-  font-size: 1.05rem !important;
-  font-weight: 700 !important;
-  color: var(--text-primary) !important;
-  line-height: 1.4 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-.app-swal-text {
-  font-size: 0.92rem !important;
-  font-weight: 400 !important;
-  color: var(--text-secondary) !important;
-  line-height: 1.45 !important;
-  margin: 0.45rem 0 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-}
-
-.app-swal-actions {
-  display: flex !important;
-  gap: 0.75rem !important;
-  width: 100% !important;
-  margin: 1.35rem 0 0 !important;
-  justify-content: center !important;
-}
-
-.app-swal-actions-single {
-  justify-content: center !important;
-}
-
-.app-swal-actions-single .app-swal-confirm-btn {
-  flex: 0 1 auto !important;
-  min-width: 7.5rem !important;
-  width: auto !important;
-  padding-left: 1.75rem !important;
-  padding-right: 1.75rem !important;
-}
-
-.app-swal-confirm-btn,
-.app-swal-cancel-btn {
-  flex: 1 1 0 !important;
-  min-width: 0 !important;
-  width: 100% !important;
-  border-radius: 12px !important;
-  padding: 0.65rem 1.1rem !important;
-  font-weight: 600 !important;
-  font-size: 0.95rem !important;
-  box-shadow: none !important;
-}
-
-.app-swal-confirm-btn {
-  background: var(--brand-primary) !important;
-  color: #ffffff !important;
-}
-
-.app-swal-confirm-btn:focus {
-  box-shadow: 0 0 0 3px rgba(11, 31, 58, 0.2) !important;
-}
-
-.app-swal-cancel-btn {
-  background: var(--surface-soft) !important;
-  color: var(--text-primary) !important;
-}
-
-/* TipTap rich text */
-.rich-text-editor {
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  background: var(--surface);
+.line-clamp-fade {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.rich-text-editor:focus-within {
-  border-color: color-mix(in srgb, var(--brand-primary) 35%, var(--border));
-  box-shadow: 0 0 0 3px rgba(11, 31, 58, 0.08);
-}
-
-.rich-text-toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.55rem 0.65rem;
-  border-bottom: 1px solid var(--border);
-  background: linear-gradient(
-    180deg,
-    var(--surface-muted) 0%,
-    color-mix(in srgb, var(--surface-muted) 70%, white) 100%
+/* Soft radial brand glow used behind hero and section headings. */
+.brand-glow {
+  background: radial-gradient(
+    closest-side,
+    rgba(47, 111, 237, 0.16),
+    rgba(47, 111, 237, 0)
   );
 }
 
-.rich-text-toolbar-sep {
-  width: 1px;
-  height: 1.25rem;
-  margin: 0 0.2rem;
-  background: var(--border-strong);
-  opacity: 0.7;
-}
-
-.rich-text-toolbar > button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 2rem;
-  height: 2rem;
-  border-radius: 10px;
-  border: 1px solid transparent;
+/* ---------------------------------------------------------------------------
+   Rich text rendered from the CMS (`description_*` HTML from TipTap)
+   --------------------------------------------------------------------------- */
+.rich-text {
   color: var(--text-secondary);
-  background: transparent;
-  font-size: 0.78rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  line-height: 1.75;
+  overflow-wrap: break-word;
 }
 
-.rich-text-toolbar > button:hover {
-  background: var(--surface);
-  border-color: var(--border);
-  color: var(--text-primary);
+.rich-text > *:first-child {
+  margin-top: 0;
 }
 
-.rich-text-toolbar > button.is-active {
-  background: var(--brand-primary);
-  color: #fff;
-  border-color: var(--brand-primary);
-}
-
-.rich-text-toolbar > button:disabled,
-.rich-text-color-trigger:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.rich-text-color-menu {
-  position: relative;
-  display: inline-flex;
-}
-
-.rich-text-color-trigger {
-  display: grid;
-  grid-template-columns: 1rem minmax(3.4rem, auto) auto;
-  column-gap: 0.45rem;
-  align-items: center;
-  height: 2rem;
-  padding: 0 0.55rem 0 0.45rem;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text-primary);
-  font-size: 0.78rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: border-color 0.12s ease, background 0.12s ease;
-}
-
-.rich-text-color-trigger:hover:not(:disabled),
-.rich-text-color-trigger.is-open {
-  border-color: color-mix(in srgb, var(--brand-primary) 35%, var(--border));
-  background: var(--surface-muted);
-}
-
-.rich-text-color-trigger:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.rich-text-color-label {
-  text-align: left;
-  line-height: 1.2;
-}
-
-.rich-text-color-dot {
-  width: 0.85rem;
-  height: 0.85rem;
-  border-radius: 999px;
-  border: 1px solid rgba(15, 23, 42, 0.18);
-  flex-shrink: 0;
-  box-sizing: border-box;
-}
-
-.rich-text-color-dot.is-default {
-  background:
-    linear-gradient(135deg, transparent 46%, #94a3b8 46%, #94a3b8 54%, transparent 54%),
-    #fff;
-}
-
-.rich-text-color-dropdown {
-  position: absolute;
-  top: calc(100% + 0.35rem);
-  left: 0;
-  z-index: 20;
-  min-width: 9.5rem;
-  padding: 0.35rem;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
-}
-
-.rich-text-color-option {
-  display: grid;
-  grid-template-columns: 1rem 1fr;
-  column-gap: 0.55rem;
-  align-items: center;
-  width: 100%;
-  border: none;
-  border-radius: 8px;
-  background: transparent;
-  padding: 0.45rem 0.55rem;
-  color: var(--text-primary);
-  font-size: 0.78rem;
-  font-weight: 600;
-  cursor: pointer;
-  text-align: left;
-}
-
-.rich-text-color-option .rich-text-color-dot {
-  justify-self: center;
-}
-
-.rich-text-color-option > span:last-child {
-  min-width: 0;
-  line-height: 1.2;
-}
-
-.rich-text-color-option:hover {
-  background: var(--surface-muted);
-}
-
-.rich-text-color-option.is-active {
-  background: color-mix(in srgb, var(--brand-primary) 10%, white);
-}
-
-.rich-text-editor .ProseMirror {
-  min-height: 160px;
-  padding: 1rem 1.05rem 1.15rem;
-  outline: none;
-  color: var(--text-primary);
-  line-height: 1.65;
-  font-size: 0.9rem;
-}
-
-.rich-text-editor .ProseMirror p {
-  margin: 0 0 0.65rem;
-}
-
-.rich-text-editor .ProseMirror p:last-child {
+.rich-text > *:last-child {
   margin-bottom: 0;
 }
 
-.rich-text-editor .ProseMirror h2,
-.rich-text-editor .ProseMirror h3 {
-  margin: 0 0 0.65rem;
+.rich-text p {
+  margin: 0 0 0.85rem;
+}
+
+.rich-text h1,
+.rich-text h2,
+.rich-text h3,
+.rich-text h4 {
+  margin: 1.4rem 0 0.7rem;
+  color: var(--text-primary);
   font-weight: 700;
-  line-height: 1.3;
-  color: var(--brand-primary);
+  line-height: 1.35;
 }
 
-.rich-text-editor .ProseMirror h2 {
-  font-size: 1.15rem;
+.rich-text h1 {
+  font-size: 1.35rem;
 }
 
-.rich-text-editor .ProseMirror h3 {
-  font-size: 1.02rem;
+.rich-text h2 {
+  font-size: 1.2rem;
 }
 
-.rich-text-editor .ProseMirror ul,
-.rich-text-editor .ProseMirror ol {
-  margin: 0 0 0.65rem;
-  padding-left: 1.25rem;
+.rich-text h3 {
+  font-size: 1.05rem;
 }
 
-.rich-text-editor .ProseMirror a {
-  color: var(--brand-primary);
+.rich-text h4 {
+  font-size: 0.98rem;
+}
+
+.rich-text strong {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.rich-text ul,
+.rich-text ol {
+  margin: 0 0 0.9rem;
+  padding-left: 1.35rem;
+}
+
+.rich-text ul {
+  list-style: disc;
+}
+
+.rich-text ol {
+  list-style: decimal;
+}
+
+.rich-text li {
+  margin: 0 0 0.35rem;
+}
+
+.rich-text li::marker {
+  color: var(--brand-highlight);
+}
+
+.rich-text a {
+  color: var(--brand-highlight);
+  font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
-.rich-text-editor .ProseMirror img.rich-text-image,
-.rich-text-editor .ProseMirror img {
+.rich-text a:hover {
+  color: var(--brand-primary);
+}
+
+.rich-text blockquote {
+  margin: 0 0 0.9rem;
+  padding: 0.35rem 0 0.35rem 1rem;
+  border-left: 3px solid var(--brand-soft);
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.rich-text code {
+  padding: 0.12rem 0.35rem;
+  border-radius: 6px;
+  background: var(--surface-muted);
+  color: var(--brand-primary);
+  font-size: 0.88em;
+}
+
+.rich-text pre {
+  margin: 0 0 0.9rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  background: var(--brand-primary);
+  color: var(--text-inverse);
+  overflow-x: auto;
+}
+
+.rich-text pre code {
+  padding: 0;
+  background: transparent;
+  color: inherit;
+}
+
+.rich-text img {
   display: block;
-  max-width: 100%;
   height: auto;
-  margin: 0.75rem 0;
+  max-width: 100%;
+  margin: 0.9rem 0;
   border-radius: 12px;
 }
 
-.rich-text-editor .ProseMirror p.is-editor-empty:first-child::before {
-  content: attr(data-placeholder);
-  float: left;
-  height: 0;
-  pointer-events: none;
-  color: var(--text-muted);
+.rich-text hr {
+  margin: 1.25rem 0;
+  border: 0;
+  border-top: 1px solid var(--border);
 }
 
+.rich-text table {
+  width: 100%;
+  margin: 0 0 0.9rem;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+.rich-text th,
+.rich-text td {
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+.rich-text th {
+  background: var(--surface-muted);
+  color: var(--text-primary);
+}
+
+/* Inverted variant for rich text placed on the dark navy hero. */
+.rich-text-inverse {
+  color: rgba(247, 250, 253, 0.82);
+}
+
+.rich-text-inverse h1,
+.rich-text-inverse h2,
+.rich-text-inverse h3,
+.rich-text-inverse h4,
+.rich-text-inverse strong {
+  color: var(--text-inverse);
+}
+
+.rich-text-inverse a {
+  color: #9dc0ff;
+}
+
+.rich-text-inverse code {
+  background: rgba(247, 250, 253, 0.14);
+  color: var(--text-inverse);
+}

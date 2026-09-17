@@ -1,5 +1,110 @@
 {
   "main": {
-    "header": "Personal Website Admin"
+    "header": "Personal Website",
+    "metaTitle": "Portfolio — Personal Website",
+    "metaDescription": "Portfolio showcasing skills, projects, work experience and education."
+  },
+  "common": {
+    "skipToContent": "Skip to content",
+    "backToTop": "Back to top",
+    "present": "Present",
+    "loading": "Loading content…",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "close": "Close",
+    "language": "Language",
+    "languageTh": "ไทย",
+    "languageEn": "English",
+    "previous": "Previous",
+    "next": "Next",
+    "goToSlide": "Go to slide {index}",
+    "yearShort": "{count, plural, one {# yr} other {# yrs}}",
+    "monthShort": "{count, plural, one {# mo} other {# mos}}"
+  },
+  "error": {
+    "title": "Content is unavailable right now",
+    "description": "We could not reach the content service. Please refresh the page or try again in a moment.",
+    "detailLabel": "Details",
+    "retry": "Reload page"
+  },
+  "empty": {
+    "title": "Nothing published yet",
+    "description": "Content for this website has not been published yet. Please check back soon."
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "projects": "Projects",
+    "experiences": "Experience",
+    "education": "Education",
+    "contact": "Contact"
+  },
+  "banners": {
+    "title": "Highlights",
+    "mediaAlt": "Highlight banner: {name}"
+  },
+  "about": {
+    "eyebrow": "About me",
+    "title": "Who I am",
+    "description": "A short introduction to my background and the work I enjoy.",
+    "viewGithub": "View GitHub",
+    "downloadResume": "Download resume",
+    "getInTouch": "Get in touch",
+    "portraitAlt": "Portrait photo"
+  },
+  "skills": {
+    "eyebrow": "Skills",
+    "title": "Tools I work with",
+    "description": "Languages, frameworks and tools I use day to day.",
+    "countLabel": "{count, plural, one {# skill} other {# skills}}",
+    "logoAlt": "{name} logo"
+  },
+  "projects": {
+    "eyebrow": "Projects",
+    "title": "Selected work",
+    "description": "A selection of things I have designed and built.",
+    "countLabel": "{count, plural, one {# project} other {# projects}}",
+    "viewDetails": "View details",
+    "sourceCode": "Source code",
+    "liveDemo": "Live demo",
+    "thumbnailAlt": "Screenshot of {name}",
+    "noThumbnail": "No preview image",
+    "dialogTitle": "Project details"
+  },
+  "experiences": {
+    "eyebrow": "Experience",
+    "title": "Where I have worked",
+    "description": "Roles and responsibilities across my career so far.",
+    "countLabel": "{count, plural, one {# role} other {# roles}}",
+    "current": "Current",
+    "logoAlt": "{name} logo"
+  },
+  "education": {
+    "eyebrow": "Education",
+    "title": "What I studied",
+    "description": "Degrees, programmes and certifications.",
+    "countLabel": "{count, plural, one {# programme} other {# programmes}}",
+    "studying": "Studying",
+    "logoAlt": "{name} logo"
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Let's work together",
+    "description": "Reach out by email or connect on social media.",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "socialLabel": "Social",
+    "copyEmail": "Copy email address",
+    "copiedEmail": "Email address copied",
+    "sendEmail": "Send an email",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "facebook": "Facebook",
+    "instagram": "Instagram"
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "builtWith": "Built with Next.js"
   }
 }

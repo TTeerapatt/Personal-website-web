@@ -1,5 +1,110 @@
 {
   "main": {
-    "header": "ระบบจัดการ Personal Website"
+    "header": "เว็บไซต์ส่วนตัว",
+    "metaTitle": "ผลงาน — เว็บไซต์ส่วนตัว",
+    "metaDescription": "เว็บไซต์ส่วนตัวรวมทักษะ ผลงาน ประสบการณ์ทำงาน และประวัติการศึกษา"
+  },
+  "common": {
+    "skipToContent": "ข้ามไปที่เนื้อหา",
+    "backToTop": "กลับขึ้นด้านบน",
+    "present": "ปัจจุบัน",
+    "loading": "กำลังโหลดข้อมูล…",
+    "openMenu": "เปิดเมนู",
+    "closeMenu": "ปิดเมนู",
+    "close": "ปิด",
+    "language": "ภาษา",
+    "languageTh": "ไทย",
+    "languageEn": "English",
+    "previous": "ก่อนหน้า",
+    "next": "ถัดไป",
+    "goToSlide": "ไปที่สไลด์ที่ {index}",
+    "yearShort": "{count} ปี",
+    "monthShort": "{count} เดือน"
+  },
+  "error": {
+    "title": "ยังแสดงข้อมูลไม่ได้ในขณะนี้",
+    "description": "ไม่สามารถเชื่อมต่อกับระบบข้อมูลได้ กรุณารีเฟรชหน้านี้หรือลองใหม่อีกครั้ง",
+    "detailLabel": "รายละเอียด",
+    "retry": "โหลดหน้านี้ใหม่"
+  },
+  "empty": {
+    "title": "ยังไม่มีข้อมูลที่เผยแพร่",
+    "description": "ยังไม่มีการเผยแพร่เนื้อหาสำหรับเว็บไซต์นี้ กรุณากลับมาดูอีกครั้ง"
+  },
+  "nav": {
+    "home": "หน้าแรก",
+    "about": "เกี่ยวกับฉัน",
+    "skills": "ทักษะ",
+    "projects": "ผลงาน",
+    "experiences": "ประสบการณ์",
+    "education": "การศึกษา",
+    "contact": "ติดต่อ"
+  },
+  "banners": {
+    "title": "ไฮไลต์",
+    "mediaAlt": "แบนเนอร์ไฮไลต์: {name}"
+  },
+  "about": {
+    "eyebrow": "เกี่ยวกับฉัน",
+    "title": "ฉันคือใคร",
+    "description": "แนะนำตัวสั้น ๆ เกี่ยวกับพื้นฐานและงานที่ฉันชอบทำ",
+    "viewGithub": "ดู GitHub",
+    "downloadResume": "ดาวน์โหลดเรซูเม่",
+    "getInTouch": "ติดต่อฉัน",
+    "portraitAlt": "รูปโปรไฟล์"
+  },
+  "skills": {
+    "eyebrow": "ทักษะ",
+    "title": "เครื่องมือที่ฉันใช้",
+    "description": "ภาษา เฟรมเวิร์ก และเครื่องมือที่ใช้ในการทำงาน",
+    "countLabel": "{count} ทักษะ",
+    "logoAlt": "โลโก้ {name}"
+  },
+  "projects": {
+    "eyebrow": "ผลงาน",
+    "title": "ผลงานที่คัดสรร",
+    "description": "ตัวอย่างผลงานที่ฉันออกแบบและพัฒนา",
+    "countLabel": "{count} ผลงาน",
+    "viewDetails": "ดูรายละเอียด",
+    "sourceCode": "ซอร์สโค้ด",
+    "liveDemo": "เปิดดูตัวอย่าง",
+    "thumbnailAlt": "ภาพหน้าจอของ {name}",
+    "noThumbnail": "ไม่มีภาพตัวอย่าง",
+    "dialogTitle": "รายละเอียดผลงาน"
+  },
+  "experiences": {
+    "eyebrow": "ประสบการณ์",
+    "title": "ประสบการณ์ทำงาน",
+    "description": "ตำแหน่งและหน้าที่ความรับผิดชอบในเส้นทางการทำงาน",
+    "countLabel": "{count} ตำแหน่ง",
+    "current": "ปัจจุบัน",
+    "logoAlt": "โลโก้ {name}"
+  },
+  "education": {
+    "eyebrow": "การศึกษา",
+    "title": "ประวัติการศึกษา",
+    "description": "วุฒิการศึกษา หลักสูตร และประกาศนียบัตร",
+    "countLabel": "{count} หลักสูตร",
+    "studying": "กำลังศึกษา",
+    "logoAlt": "โลโก้ {name}"
+  },
+  "contact": {
+    "eyebrow": "ติดต่อ",
+    "title": "มาร่วมงานกันได้เลย",
+    "description": "ติดต่อผ่านอีเมล หรือติดตามช่องทางโซเชียลได้เลย",
+    "emailLabel": "อีเมล",
+    "phoneLabel": "โทรศัพท์",
+    "socialLabel": "โซเชียล",
+    "copyEmail": "คัดลอกอีเมล",
+    "copiedEmail": "คัดลอกอีเมลแล้ว",
+    "sendEmail": "ส่งอีเมล",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "facebook": "Facebook",
+    "instagram": "Instagram"
+  },
+  "footer": {
+    "rights": "สงวนลิขสิทธิ์",
+    "builtWith": "พัฒนาด้วย Next.js"
   }
 }

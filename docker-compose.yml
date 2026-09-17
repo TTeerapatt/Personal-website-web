@@ -1,27 +1,30 @@
 services:
-  personal-website-admin:
+  personal-website-web:
     build:
       context: .
       dockerfile: Dockerfile
       args:
         # Browser-facing API URL (baked at build time)
         NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL:-http://localhost:3006/personal-website/api/}
-    image: personal-website-admin:latest
-    container_name: personal-website-admin
+    image: personal-website-web:latest
+    container_name: personal-website-web
     restart: unless-stopped
     ports:
-      - "${ADMIN_PORT:-3007}:3007"
+      - "${WEB_PORT:-3008}:3008"
     environment:
       NODE_ENV: production
-      PORT: 3007
+      PORT: 3008
       HOSTNAME: 0.0.0.0
+      # Server-side rendering reaches the API directly. Defaults to the
+      # browser-facing URL when unset.
+      BACKEND_INTERNAL_URL: ${BACKEND_INTERNAL_URL:-}
     healthcheck:
       test:
         [
           "CMD",
           "node",
           "-e",
-          "fetch('http://127.0.0.1:'+(process.env.PORT||3007)+'/personal-website/admin').then((r)=>process.exit(r.status<500?0:1)).catch(()=>process.exit(1))",
+          "fetch('http://127.0.0.1:'+(process.env.PORT||3008)+'/personal-website').then((r)=>process.exit(r.status<500?0:1)).catch(()=>process.exit(1))",
         ]
       interval: 30s
       timeout: 5s
