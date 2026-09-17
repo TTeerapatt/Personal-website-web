@@ -1,5 +1,4 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { ADMIN_TOKEN_KEY } from "@/app/lib/adminStorage";
 
 const base_url = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
 
@@ -12,15 +11,10 @@ const apiServices = axios.create(axiosConfig);
 
 apiServices.interceptors.request.use(
   (config) => {
-    const token =
-      typeof window !== "undefined"
-        ? localStorage.getItem(ADMIN_TOKEN_KEY)
-        : null;
-    if (token) {
-      config.headers = Object.assign({}, config.headers, {
-        Authorization: `Bearer ${token}`,
-      });
-    }
+    config.headers = Object.assign({}, config.headers, {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    });
     return config;
   },
   (error) => {

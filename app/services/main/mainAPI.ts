@@ -3,10 +3,10 @@ import { validateOrThrowApiResponse } from "../response-validator";
 
 const mainAPI = {
 
-    getMe() {
+    getPublicWebsiteContent() {
         return apiServices
             .get(
-                `auth/me`,
+                `public/content`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -16,14 +16,14 @@ const mainAPI = {
             )
             .then((res) => validateOrThrowApiResponse(res))
             .catch((err) => {
-                console.log("Error getMe:", err);
+                console.log("Error getPublicWebsiteContent:", err);
                 return {
                     status: "failed",
                     errMessage:
                         err?.message ||
                         err?.errMessage ||
                         (typeof err === "string" ? err : null) ||
-                        "Failed to fetch user data",
+                        "Failed to fetch public website content",
                     error: err,
                 };
             });
