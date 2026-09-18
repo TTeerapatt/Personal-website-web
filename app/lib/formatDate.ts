@@ -64,7 +64,7 @@ function format(parts: CalendarParts, locale: AppLocale): string {
 }
 
 /** "Jan 2024" / "ม.ค. 2024". Returns an empty string for unusable input. */
-export function formatMonthYear(
+function formatMonthYear(
   value: string | null | undefined,
   locale: AppLocale
 ): string {

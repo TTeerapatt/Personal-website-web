@@ -9,7 +9,6 @@ type ActionLinkProps = {
   /** Opens in a new tab with rel="noreferrer". Defaults to true for http(s). */
   external?: boolean;
   className?: string;
-  ariaLabel?: string;
 };
 
 const BASE_CLASS =
@@ -33,14 +32,12 @@ export default function ActionLink({
   variant = "primary",
   external,
   className = "",
-  ariaLabel,
 }: ActionLinkProps) {
   const isExternal = external ?? /^https?:/i.test(href);
 
   return (
     <a
       href={href}
-      aria-label={ariaLabel}
       {...(isExternal
         ? { target: "_blank", rel: "noopener noreferrer" }
         : undefined)}

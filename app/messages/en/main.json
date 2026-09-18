@@ -13,8 +13,6 @@
     "closeMenu": "Close menu",
     "close": "Close",
     "language": "Language",
-    "languageTh": "ไทย",
-    "languageEn": "English",
     "previous": "Previous",
     "next": "Next",
     "goToSlide": "Go to slide {index}",
@@ -47,7 +45,6 @@
   "about": {
     "eyebrow": "About me",
     "title": "Who I am",
-    "description": "A short introduction to my background and the work I enjoy.",
     "viewGithub": "View GitHub",
     "downloadResume": "Download resume",
     "getInTouch": "Get in touch",

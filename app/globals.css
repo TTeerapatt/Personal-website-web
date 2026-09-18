@@ -14,7 +14,6 @@
 
   --canvas: #f5f7fb;
   --surface: #ffffff;
-  --surface-raised: #ffffff;
   --surface-muted: #eef2f7;
   --surface-soft: #e8eef6;
 
@@ -26,7 +25,6 @@
   --text-muted: #7a8ba3;
   --text-inverse: #f7fafd;
 
-  --danger: #c0392b;
   --success: #1f7a4d;
 
   --shadow-card: 0 1px 2px rgba(11, 31, 58, 0.04),
@@ -36,12 +34,6 @@
 
   /* Sticky header height, also used as scroll offset for anchor links. */
   --header-height: 4rem;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-noto-thai);
 }
 
 @media (min-width: 1024px) {
@@ -121,7 +113,6 @@ video {
   }
 
   .animate-float,
-  .animate-marquee,
   .animate-caret {
     animation: none !important;
   }
@@ -149,15 +140,6 @@ video {
   }
 }
 
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
 @keyframes caretBlink {
   0%,
   45% {
@@ -173,43 +155,19 @@ video {
   animation: floatSoft 6s ease-in-out infinite;
 }
 
-.animate-marquee {
-  animation: marquee var(--marquee-duration, 32s) linear infinite;
-}
-
 .animate-caret {
   animation: caretBlink 1s step-end infinite;
-}
-
-.marquee-track:hover .animate-marquee,
-.marquee-track:focus-within .animate-marquee {
-  animation-play-state: paused;
 }
 
 /* ---------------------------------------------------------------------------
    Utilities
    --------------------------------------------------------------------------- */
-.no-scrollbar {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
 .text-balance {
   text-wrap: balance;
 }
 
 .text-pretty {
   text-wrap: pretty;
-}
-
-.line-clamp-fade {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 /* Soft radial brand glow used behind hero and section headings. */
@@ -368,26 +326,4 @@ video {
 .rich-text th {
   background: var(--surface-muted);
   color: var(--text-primary);
-}
-
-/* Inverted variant for rich text placed on the dark navy hero. */
-.rich-text-inverse {
-  color: rgba(247, 250, 253, 0.82);
-}
-
-.rich-text-inverse h1,
-.rich-text-inverse h2,
-.rich-text-inverse h3,
-.rich-text-inverse h4,
-.rich-text-inverse strong {
-  color: var(--text-inverse);
-}
-
-.rich-text-inverse a {
-  color: #9dc0ff;
-}
-
-.rich-text-inverse code {
-  background: rgba(247, 250, 253, 0.14);
-  color: var(--text-inverse);
 }

@@ -9,7 +9,6 @@ function failedResult(err: unknown, fallback: string) {
       (err as { errMessage?: string })?.errMessage ||
       (typeof err === "string" ? err : null) ||
       fallback,
-    error: err,
   };
 }
 

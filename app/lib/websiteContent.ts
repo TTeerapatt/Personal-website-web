@@ -2,7 +2,7 @@ import mainAPI from "@/app/services/main/mainAPI";
 import type { PublicWebsiteContent, SectionId } from "@/app/types/content";
 import { isHtmlEmpty } from "./sanitizeHtml";
 
-export type WebsiteContentState = {
+type WebsiteContentState = {
   content: PublicWebsiteContent | null;
   errMessage: string | null;
 };
