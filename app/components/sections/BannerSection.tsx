@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   HiOutlineChevronDown,
   HiOutlineChevronLeft,
@@ -21,6 +21,10 @@ type BannerSectionProps = {
 
 const AUTOPLAY_INTERVAL_MS = 6500;
 
+/** Hover only — avoid focus-within so a clicked control does not keep icons visible after the pointer leaves. */
+const CONTROLS_VISIBILITY =
+  "pointer-events-none opacity-0 transition group-hover:pointer-events-auto group-hover:opacity-100 group-has-[:focus-visible]:pointer-events-auto group-has-[:focus-visible]:opacity-100 [@media(hover:none)]:pointer-events-auto [@media(hover:none)]:opacity-100";
+
 export default function BannerSection({
   banners,
   nextSectionId,
@@ -28,12 +32,11 @@ export default function BannerSection({
   const t = useTranslations("banners");
   const tCommon = useTranslations("common");
 
-  const [swiper, setSwiper] = useState<SwiperInstance | null>(null);
+  const swiperRef = useRef<SwiperInstance | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
-  const slideCount = banners.length;
-  const hasMultiple = slideCount > 1;
+  const hasMultiple = banners.length > 1;
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -44,23 +47,13 @@ export default function BannerSection({
     return () => mediaQuery.removeEventListener("change", syncPreference);
   }, []);
 
-  useEffect(() => {
-    if (!swiper || swiper.destroyed || !swiper.autoplay) return;
-
-    if (hasMultiple && !prefersReducedMotion) {
-      swiper.autoplay.start();
-    } else {
-      swiper.autoplay.stop();
-    }
-  }, [swiper, hasMultiple, prefersReducedMotion]);
-
   return (
     <section
       id="home"
       aria-label={t("title")}
       className="relative scroll-mt-[var(--header-height)] overflow-hidden bg-[var(--brand-primary)]"
     >
-      <div className="relative h-[62svh] min-h-[400px] w-full sm:h-[70svh] lg:h-[84svh] lg:min-h-[560px]">
+      <div className="group relative h-[62svh] min-h-[400px] w-full sm:h-[70svh] lg:h-[84svh] lg:min-h-[560px]">
         <Swiper
           modules={[A11y, Autoplay, Keyboard]}
           className="banner-swiper h-full w-full"
@@ -68,11 +61,7 @@ export default function BannerSection({
           speed={700}
           rewind={hasMultiple}
           watchOverflow
-          a11y={{
-            enabled: true,
-            prevSlideMessage: tCommon("previous"),
-            nextSlideMessage: tCommon("next"),
-          }}
+          a11y
           keyboard={{ enabled: hasMultiple }}
           autoplay={
             hasMultiple && !prefersReducedMotion
@@ -83,7 +72,9 @@ export default function BannerSection({
                 }
               : false
           }
-          onSwiper={setSwiper}
+          onSwiper={(instance) => {
+            swiperRef.current = instance;
+          }}
           onSlideChange={(instance) => setActiveIndex(instance.realIndex)}
         >
           {banners.map((banner, index) => (
@@ -110,28 +101,39 @@ export default function BannerSection({
           <>
             <button
               type="button"
-              onClick={() => swiper?.slidePrev()}
+              onClick={(event) => {
+                swiperRef.current?.slidePrev();
+                event.currentTarget.blur();
+              }}
               aria-label={tCommon("previous")}
-              className="absolute top-1/2 left-3 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/28 text-[20px] text-white ring-1 ring-white/25 backdrop-blur-sm transition hover:bg-black/45 sm:left-5 sm:h-12 sm:w-12 sm:text-[24px]"
+              className={`${CONTROLS_VISIBILITY} absolute top-1/2 left-3 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/28 text-[20px] text-white ring-1 ring-white/25 backdrop-blur-sm hover:bg-black/45 sm:left-5 sm:h-12 sm:w-12 sm:text-[24px]`}
             >
               <HiOutlineChevronLeft aria-hidden="true" />
             </button>
 
             <button
               type="button"
-              onClick={() => swiper?.slideNext()}
+              onClick={(event) => {
+                swiperRef.current?.slideNext();
+                event.currentTarget.blur();
+              }}
               aria-label={tCommon("next")}
-              className="absolute top-1/2 right-3 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/28 text-[20px] text-white ring-1 ring-white/25 backdrop-blur-sm transition hover:bg-black/45 sm:right-5 sm:h-12 sm:w-12 sm:text-[24px]"
+              className={`${CONTROLS_VISIBILITY} absolute top-1/2 right-3 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/28 text-[20px] text-white ring-1 ring-white/25 backdrop-blur-sm hover:bg-black/45 sm:right-5 sm:h-12 sm:w-12 sm:text-[24px]`}
             >
               <HiOutlineChevronRight aria-hidden="true" />
             </button>
 
-            <div className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 sm:bottom-8">
+            <div
+              className={`${CONTROLS_VISIBILITY} absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 sm:bottom-8`}
+            >
               {banners.map((banner, index) => (
                 <button
                   key={banner.id}
                   type="button"
-                  onClick={() => swiper?.slideTo(index)}
+                  onClick={(event) => {
+                    swiperRef.current?.slideTo(index);
+                    event.currentTarget.blur();
+                  }}
                   aria-label={tCommon("goToSlide", { index: index + 1 })}
                   aria-current={index === activeIndex ? "true" : undefined}
                   className={`h-2 rounded-full transition-all duration-300 ${
@@ -150,7 +152,7 @@ export default function BannerSection({
             href={`#${nextSectionId}`}
             aria-hidden="true"
             tabIndex={-1}
-            className="animate-float absolute bottom-14 left-1/2 z-20 hidden h-11 w-11 -translate-x-1/2 items-center justify-center rounded-full text-[24px] text-white/75 transition hover:text-white sm:bottom-16 sm:flex"
+            className={`${CONTROLS_VISIBILITY} animate-float absolute bottom-14 left-1/2 z-20 hidden h-11 w-11 -translate-x-1/2 items-center justify-center rounded-full text-[24px] text-white/75 hover:text-white sm:bottom-16 sm:flex`}
           >
             <HiOutlineChevronDown />
           </a>
