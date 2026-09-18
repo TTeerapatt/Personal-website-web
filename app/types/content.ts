@@ -1,9 +1,3 @@
-/**
- * Types for the public landing payload.
- * Mirrors Personal-website-api `GET /public/content`
- * (src/services/public_content.service.ts).
- */
-
 export type MediaType = "image" | "video";
 
 export type SiteSettings = {
@@ -103,10 +97,6 @@ export type ContactMe = {
   is_active: boolean;
 };
 
-/**
- * Sections whose `show_*` flag is false are omitted entirely by the API,
- * so every content key is optional.
- */
 export type PublicWebsiteContent = {
   settings: SiteSettings;
   banners?: HomeBanner[];
@@ -118,7 +108,6 @@ export type PublicWebsiteContent = {
   contact_me?: ContactMe | null;
 };
 
-/** Anchor targets for the single-page navigation. */
 export type SectionId =
   | "home"
   | "about"

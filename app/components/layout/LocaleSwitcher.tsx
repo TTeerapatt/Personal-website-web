@@ -7,16 +7,10 @@ import { setLocaleAction } from "@/app/lib/localeActions";
 import { SUPPORTED_LOCALES, type AppLocale } from "@/app/lib/locale";
 
 type LocaleSwitcherProps = {
-  /** `inverse` is for the transparent header state over the dark hero. */
   tone?: "default" | "inverse";
   className?: string;
 };
 
-/**
- * Switches language by writing the locale cookie through a Server Action, then
- * refreshing so the server re-renders with the new messages. Deliberately not
- * URL-based, to keep the site on a single route.
- */
 export default function LocaleSwitcher({
   tone = "default",
   className = "",

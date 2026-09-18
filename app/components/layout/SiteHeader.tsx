@@ -9,10 +9,8 @@ import type { SectionId } from "@/app/types/content";
 import LocaleSwitcher from "./LocaleSwitcher";
 
 type SiteHeaderProps = {
-  /** Only the sections actually rendered on the page, in page order. */
   sections: SectionId[];
   brandName: string;
-  /** True when the hero sits directly beneath the header, so it starts transparent. */
   hasHero: boolean;
 };
 
@@ -31,7 +29,6 @@ export default function SiteHeader({
     sections[0] ?? null
   );
 
-  // Track scroll position for the header background and the active nav item.
   useEffect(() => {
     if (sections.length === 0) return;
 
@@ -50,8 +47,6 @@ export default function SiteHeader({
         if (element.getBoundingClientRect().top - offset <= 0) current = id;
       }
 
-      // Snap to the last section once the page is scrolled to the bottom,
-      // which short sections would otherwise never reach.
       const reachedBottom =
         window.innerHeight + window.scrollY >=
         document.documentElement.scrollHeight - 2;
@@ -76,7 +71,6 @@ export default function SiteHeader({
     };
   }, [sections]);
 
-  // Close the mobile drawer on Escape and lock background scrolling.
   useEffect(() => {
     if (!isMenuOpen) return;
 
@@ -181,7 +175,6 @@ export default function SiteHeader({
         </div>
       </div>
 
-      {/* Mobile / tablet drawer */}
       <div
         id="mobile-nav"
         hidden={!isMenuOpen || sections.length === 0}

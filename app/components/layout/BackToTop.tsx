@@ -4,7 +4,6 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { HiOutlineArrowUp } from "react-icons/hi";
 
-/** Floating scroll-to-top button, revealed after the first viewport. */
 export default function BackToTop() {
   const t = useTranslations("common");
   const [isVisible, setIsVisible] = useState(false);

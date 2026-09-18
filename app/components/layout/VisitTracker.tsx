@@ -5,14 +5,6 @@ import mainAPI from "@/app/services/main/mainAPI";
 
 const SESSION_KEY = "personal_website_visit_tracked";
 
-/**
- * Records one visit per browser session against the public
- * `POST /website-visits/track` endpoint.
- *
- * The session flag is written before the request so React Strict Mode's double
- * effect invocation in development cannot double-count. Failures are ignored —
- * analytics must never break the page.
- */
 export default function VisitTracker() {
   useEffect(() => {
     let alreadyTracked = false;

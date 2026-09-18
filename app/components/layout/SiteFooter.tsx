@@ -21,7 +21,6 @@ export default async function SiteFooter({
   const tNav = await getTranslations("nav");
   const tContact = await getTranslations("contact");
 
-  // Rendered on the server, so the year never causes a hydration mismatch.
   const year = new Date().getFullYear();
 
   return (
