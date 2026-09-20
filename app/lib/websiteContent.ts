@@ -74,7 +74,11 @@ export function getVisibleSections(
   if (settings.show_about_me && hasAboutContent(content)) {
     sections.push("about");
   }
-  if (settings.show_skills && (content.skills?.length ?? 0) > 0) {
+  // Marquee shows logos only — skip the section when nothing has a media URL.
+  if (
+    settings.show_skills &&
+    (content.skills?.some((skill) => Boolean(skill.url?.trim())) ?? false)
+  ) {
     sections.push("skills");
   }
   if (settings.show_projects && (content.projects?.length ?? 0) > 0) {
