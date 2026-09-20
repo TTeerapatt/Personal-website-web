@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import type { Skill } from "@/app/types/content";
 import Reveal from "../ui/Reveal";
 import SectionShell from "../ui/SectionShell";
-import SkillsMarquee from "./SkillsMarquee";
+import SkillsMarquee from "../ui/SkillsMarquee";
 
 type SkillsSectionProps = {
   skills: Skill[];

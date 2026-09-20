@@ -92,8 +92,8 @@ Personal-website-web/
     │   └── main/mainAPI.ts         # getPublicWebsiteContent, trackWebsiteVisit
     └── components/
         ├── layout/                 # SiteHeader, SiteFooter, LocaleSwitcher, BackToTop, VisitTracker
-        ├── sections/               # 1 ไฟล์ต่อ 1 section บนหน้า
-        └── ui/                     # ชิ้นส่วนที่ใช้ซ้ำ (SectionShell, RichText, MediaFrame, …)
+        ├── sections/               # เฉพาะ *Section.tsx หลักของหน้า (1 ไฟล์ต่อ 1 section)
+        └── ui/                     # ชิ้นส่วนที่ใช้ซ้ำ / ลูกของ section (SectionShell, SkillsMarquee, …)
 ```
 
 ---

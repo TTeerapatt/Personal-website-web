@@ -6,7 +6,7 @@ import ActionLink from "../ui/ActionLink";
 import Reveal from "../ui/Reveal";
 import SectionShell from "../ui/SectionShell";
 import SocialLinks from "../ui/SocialLinks";
-import CopyEmailButton from "./CopyEmailButton";
+import CopyEmailButton from "../ui/CopyEmailButton";
 
 type ContactSectionProps = {
   contact: ContactMe;

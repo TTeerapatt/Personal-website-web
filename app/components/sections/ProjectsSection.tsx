@@ -11,7 +11,7 @@ import type { Project } from "@/app/types/content";
 import MediaFrame from "../ui/MediaFrame";
 import Reveal from "../ui/Reveal";
 import SectionShell from "../ui/SectionShell";
-import ProjectDetailDialog, { type ProjectDetail } from "./ProjectDetailDialog";
+import ProjectDetailDialog, { type ProjectDetail } from "../ui/ProjectDetailDialog";
 
 type ProjectsSectionProps = {
   projects: Project[];

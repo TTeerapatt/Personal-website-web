@@ -6,9 +6,9 @@ import { FaGithub } from "react-icons/fa6";
 import { HiOutlineExternalLink, HiOutlineX } from "react-icons/hi";
 import { resolveExternalUrl } from "@/app/lib/mediaUrl";
 import { isHtmlEmpty } from "@/app/lib/sanitizeHtml";
-import ActionLink from "../ui/ActionLink";
-import MediaFrame from "../ui/MediaFrame";
-import RichText from "../ui/RichText";
+import ActionLink from "./ActionLink";
+import MediaFrame from "./MediaFrame";
+import RichText from "./RichText";
 
 export type ProjectDetail = {
   id: number;

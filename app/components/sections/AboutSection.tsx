@@ -9,7 +9,7 @@ import ActionLink from "../ui/ActionLink";
 import MediaFrame from "../ui/MediaFrame";
 import Reveal from "../ui/Reveal";
 import RichText from "../ui/RichText";
-import TypewriterText from "./TypewriterText";
+import TypewriterText from "../ui/TypewriterText";
 
 type AboutSectionProps = {
   about: AboutMe;
