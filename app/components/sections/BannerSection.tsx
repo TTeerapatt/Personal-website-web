@@ -53,7 +53,7 @@ export default function BannerSection({
       aria-label={t("title")}
       className="relative scroll-mt-[var(--header-height)] overflow-hidden bg-[var(--brand-primary)]"
     >
-      <div className="group relative h-[62svh] min-h-[400px] w-full sm:h-[70svh] lg:h-[84svh] lg:min-h-[560px]">
+      <div className="group relative h-svh min-h-svh w-full">
         <Swiper
           modules={[A11y, Autoplay, Keyboard]}
           className="banner-swiper h-full w-full"
