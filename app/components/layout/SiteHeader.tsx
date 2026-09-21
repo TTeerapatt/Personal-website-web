@@ -1,10 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { HiOutlineMenuAlt3, HiOutlineX } from "react-icons/hi";
-import { logo } from "@/app/assets";
 import type { SectionId } from "@/app/types/content";
 import LocaleSwitcher from "./LocaleSwitcher";
 
@@ -101,34 +99,12 @@ export default function SiteHeader({
           : "border-b border-[var(--border)] bg-white/85 shadow-[0_2px_12px_rgba(11,31,58,0.06)] backdrop-blur-md"
       }`}
     >
-      <div className="mx-auto flex h-full w-full max-w-[1280px] items-center justify-between gap-4 px-5 sm:px-6 lg:px-8 xl:px-10">
-        <a
-          href="#top"
-          onClick={closeMenu}
-          className="flex min-w-0 items-center gap-2.5"
-        >
-          <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-xl ring-1 ring-black/5 sm:h-10 sm:w-10">
-            <Image
-              src={logo}
-              alt=""
-              fill
-              sizes="40px"
-              className="object-cover"
-              priority
-            />
-          </span>
-          <span
-            className={`truncate text-[15px] font-bold tracking-tight transition-colors sm:text-[16px] ${
-              isTransparent ? "text-white" : "text-[var(--text-primary)]"
-            }`}
-          >
-            {brandName}
-          </span>
-        </a>
+      <div className="mx-auto grid h-full w-full max-w-[1280px] grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 sm:px-6 lg:px-8 xl:px-10">
+        <div aria-hidden="true" />
 
         <nav
           aria-label={brandName}
-          className="hidden items-center gap-1 lg:flex"
+          className="hidden items-center justify-center gap-1 lg:flex"
         >
           {sections.map((id) => {
             const isActive = activeSection === id;
@@ -154,7 +130,7 @@ export default function SiteHeader({
           })}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="col-start-3 flex items-center justify-end gap-2">
           <LocaleSwitcher tone={isTransparent ? "inverse" : "default"} />
 
           <button
