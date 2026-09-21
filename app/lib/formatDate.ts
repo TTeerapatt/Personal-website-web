@@ -57,13 +57,13 @@ function toCalendarParts(
 
 function format(parts: CalendarParts, locale: AppLocale): string {
   return new Intl.DateTimeFormat(intlLocale(locale), {
-    month: "short",
+    month: "long",
     year: "numeric",
     timeZone: "UTC",
   }).format(new Date(Date.UTC(parts.year, parts.month, parts.day)));
 }
 
-/** "Jan 2024" / "ม.ค. 2024". Returns an empty string for unusable input. */
+/** "January 2024" / "มกราคม 2024". Returns an empty string for unusable input. */
 function formatMonthYear(
   value: string | null | undefined,
   locale: AppLocale
@@ -73,7 +73,7 @@ function formatMonthYear(
 }
 
 /**
- * "Jan 2022 – Present". `presentLabel` comes from the translation files so the
+ * "January 2022 – Present". `presentLabel` comes from the translation files so the
  * ongoing case (end_date = NULL) reads correctly in both languages.
  */
 export function formatPeriod(

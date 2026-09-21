@@ -18,8 +18,8 @@
     "previous": "Previous",
     "next": "Next",
     "goToSlide": "Go to slide {index}",
-    "yearShort": "{count, plural, one {# yr} other {# yrs}}",
-    "monthShort": "{count, plural, one {# mo} other {# mos}}"
+    "yearShort": "{count, plural, one {# year} other {# years}}",
+    "monthShort": "{count, plural, one {# month} other {# months}}"
   },
   "error": {
     "title": "Content is unavailable right now",
@@ -47,7 +47,7 @@
   "about": {
     "eyebrow": "About me",
     "title": "Who I am",
-    "viewGithub": "View GitHub",
+    "viewGithub": "GitHub",
     "downloadResume": "Download resume",
     "getInTouch": "Get in touch",
     "portraitAlt": "Portrait photo"

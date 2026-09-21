@@ -1,9 +1,9 @@
 import { getTranslations } from "next-intl/server";
-import { formatPeriod } from "@/app/lib/formatDate";
+import { calculateDuration, formatPeriod } from "@/app/lib/formatDate";
 import { pickLocalized, type AppLocale } from "@/app/lib/locale";
 import type { Education } from "@/app/types/content";
+import AccordionList, { type AccordionItem } from "../ui/AccordionList";
 import SectionShell from "../ui/SectionShell";
-import TimelineList, { type TimelineEntry } from "../ui/TimelineList";
 
 type EducationSectionProps = {
   education: Education[];
@@ -19,8 +19,19 @@ export default async function EducationSection({
 
   const presentLabel = tCommon("present");
 
-  const entries: TimelineEntry[] = education.map((item) => {
+  const items: AccordionItem[] = education.map((item) => {
     const name = pickLocalized(locale, item.name_th, item.name_en);
+    const duration = calculateDuration(item.start_date, item.end_date);
+
+    const durationParts: string[] = [];
+    if (duration) {
+      if (duration.years > 0) {
+        durationParts.push(tCommon("yearShort", { count: duration.years }));
+      }
+      if (duration.months > 0) {
+        durationParts.push(tCommon("monthShort", { count: duration.months }));
+      }
+    }
 
     return {
       id: item.id,
@@ -31,6 +42,7 @@ export default async function EducationSection({
         locale,
         presentLabel
       ),
+      durationLabel: durationParts.join(" ") || undefined,
       badge: item.end_date ? undefined : t("studying"),
       descriptionHtml: pickLocalized(
         locale,
@@ -50,9 +62,8 @@ export default async function EducationSection({
       eyebrow={t("eyebrow")}
       title={t("title")}
       description={t("description")}
-      badge={t("countLabel", { count: entries.length })}
     >
-      <TimelineList entries={entries} />
+      <AccordionList items={items} />
     </SectionShell>
   );
 }

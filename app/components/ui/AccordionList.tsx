@@ -72,12 +72,12 @@ function AccordionRow({
             aria-controls={panelId}
             className="flex min-w-0 flex-1 cursor-pointer items-center gap-3 text-left sm:gap-4"
           >
-            <span className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface-muted)] sm:h-16 sm:w-16">
+            <span className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden sm:h-16 sm:w-16">
               <MediaFrame
                 url={item.mediaUrl}
                 mediaType={item.mediaType}
                 alt={item.logoAlt}
-                className="h-full w-full p-2"
+                className="h-full w-full"
                 mediaClassName="h-full w-full object-contain"
                 fallback={
                   <span className="text-[16px] font-bold text-[var(--brand-primary)]">

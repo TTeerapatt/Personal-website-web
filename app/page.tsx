@@ -130,12 +130,12 @@ export default async function HomePage() {
         ) : null}
       </main>
 
-      <SiteFooter
+      {/* <SiteFooter
         brandName={brandName}
         sections={sections}
         contact={contact}
         fallbackGithubUrl={about?.github_url ?? null}
-      />
+      /> */}
 
       <BackToTop />
       <VisitTracker />
