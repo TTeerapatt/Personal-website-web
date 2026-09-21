@@ -17,6 +17,7 @@ export type ProjectDetail = {
   thumbnailUrl: string | null;
   githubUrl: string | null;
   demoUrl: string | null;
+  createdAt: string | null;
 };
 
 type ProjectDetailDialogProps = {

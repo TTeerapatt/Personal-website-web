@@ -119,3 +119,23 @@ function currentCalendarParts(): CalendarParts {
     day: now.getUTCDate(),
   };
 }
+
+/**
+ * Full calendar date for timestamps such as `created_at`.
+ * Matches the admin blog card style: "21 March 2026" / "21 มีนาคม 2026".
+ */
+export function formatDisplayDate(
+  value: string | null | undefined,
+  locale: AppLocale
+): string {
+  if (!value) return "";
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return String(value).slice(0, 10);
+
+  return new Intl.DateTimeFormat(intlLocale(locale), {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(date);
+}

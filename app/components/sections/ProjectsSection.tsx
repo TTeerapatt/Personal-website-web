@@ -3,7 +3,12 @@
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import { FaGithub } from "react-icons/fa6";
-import { HiOutlineExternalLink, HiOutlinePhotograph } from "react-icons/hi";
+import {
+  HiOutlineCalendar,
+  HiOutlineExternalLink,
+  HiOutlinePhotograph,
+} from "react-icons/hi";
+import { formatDisplayDate } from "@/app/lib/formatDate";
 import { pickLocalized, type AppLocale } from "@/app/lib/locale";
 import { resolveExternalUrl } from "@/app/lib/mediaUrl";
 import { htmlToPlainText } from "@/app/lib/sanitizeHtml";
@@ -39,6 +44,7 @@ export default function ProjectsSection({
         thumbnailUrl: project.thumbnail_url,
         githubUrl: project.github_url,
         demoUrl: project.demo_url,
+        createdAt: project.created_at ?? null,
       })),
     [projects, locale]
   );
@@ -49,7 +55,6 @@ export default function ProjectsSection({
       eyebrow={t("eyebrow")}
       title={t("title")}
       description={t("description")}
-      badge={t("countLabel", { count: items.length })}
     >
       <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:gap-6 xl:grid-cols-3">
         {items.map((project, index) => {
@@ -60,7 +65,19 @@ export default function ProjectsSection({
           return (
             <li key={project.id} className="h-full">
               <Reveal delay={Math.min(index, 5) * 70} className="h-full">
-                <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-card)] transition duration-200 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]">
+                <article
+                  role="button"
+                  tabIndex={0}
+                  aria-label={project.name}
+                  onClick={() => setActiveProject(project)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      setActiveProject(project);
+                    }
+                  }}
+                  className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-card)] transition duration-200 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand-highlight)]"
+                >
                   <MediaFrame
                     url={project.thumbnailUrl}
                     mediaType="image"
@@ -91,42 +108,52 @@ export default function ProjectsSection({
                       </p>
                     ) : null}
 
-                    <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 pt-5">
-                      <button
-                        type="button"
-                        onClick={() => setActiveProject(project)}
-                        className="text-[13px] font-bold text-[var(--brand-highlight)] transition hover:text-[var(--brand-primary)]"
-                      >
-                        {t("viewDetails")}
-                      </button>
+                    <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-[var(--border)] pt-4">
+                      {demoUrl || githubUrl ? (
+                        <span className="flex items-center gap-1.5">
+                          {demoUrl ? (
+                            <a
+                              href={demoUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label={`${t("liveDemo")}: ${project.name}`}
+                              title={t("liveDemo")}
+                              onClick={(event) => event.stopPropagation()}
+                              onKeyDown={(event) => event.stopPropagation()}
+                              className="flex h-9 w-9 items-center justify-center rounded-lg text-[18px] text-[var(--text-secondary)] transition hover:bg-[var(--surface-muted)] hover:text-[var(--brand-primary)]"
+                            >
+                              <HiOutlineExternalLink aria-hidden="true" />
+                            </a>
+                          ) : null}
 
-                      <span className="ml-auto flex items-center gap-1.5">
-                        {demoUrl ? (
-                          <a
-                            href={demoUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label={`${t("liveDemo")}: ${project.name}`}
-                            title={t("liveDemo")}
-                            className="flex h-9 w-9 items-center justify-center rounded-lg text-[18px] text-[var(--text-secondary)] transition hover:bg-[var(--surface-muted)] hover:text-[var(--brand-primary)]"
-                          >
-                            <HiOutlineExternalLink aria-hidden="true" />
-                          </a>
-                        ) : null}
+                          {githubUrl ? (
+                            <a
+                              href={githubUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label={`${t("sourceCode")}: ${project.name}`}
+                              title={t("sourceCode")}
+                              onClick={(event) => event.stopPropagation()}
+                              onKeyDown={(event) => event.stopPropagation()}
+                              className="flex h-9 w-9 items-center justify-center rounded-lg text-[17px] text-[var(--text-secondary)] transition hover:bg-[var(--surface-muted)] hover:text-[var(--brand-primary)]"
+                            >
+                              <FaGithub aria-hidden="true" />
+                            </a>
+                          ) : null}
+                        </span>
+                      ) : null}
 
-                        {githubUrl ? (
-                          <a
-                            href={githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label={`${t("sourceCode")}: ${project.name}`}
-                            title={t("sourceCode")}
-                            className="flex h-9 w-9 items-center justify-center rounded-lg text-[17px] text-[var(--text-secondary)] transition hover:bg-[var(--surface-muted)] hover:text-[var(--brand-primary)]"
-                          >
-                            <FaGithub aria-hidden="true" />
-                          </a>
-                        ) : null}
-                      </span>
+                      {project.createdAt ? (
+                        <p className="ml-auto inline-flex items-center gap-1.5 text-[12px] font-medium text-[var(--text-muted)]">
+                          <HiOutlineCalendar
+                            aria-hidden="true"
+                            className="h-3.5 w-3.5 shrink-0"
+                          />
+                          <time dateTime={project.createdAt}>
+                            {formatDisplayDate(project.createdAt, locale)}
+                          </time>
+                        </p>
+                      ) : null}
                     </div>
                   </div>
                 </article>

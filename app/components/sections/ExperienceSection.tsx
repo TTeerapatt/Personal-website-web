@@ -2,8 +2,8 @@ import { getTranslations } from "next-intl/server";
 import { calculateDuration, formatPeriod } from "@/app/lib/formatDate";
 import { pickLocalized, type AppLocale } from "@/app/lib/locale";
 import type { Experience } from "@/app/types/content";
+import AccordionList, { type AccordionItem } from "../ui/AccordionList";
 import SectionShell from "../ui/SectionShell";
-import TimelineList, { type TimelineEntry } from "../ui/TimelineList";
 
 type ExperienceSectionProps = {
   experiences: Experience[];
@@ -19,7 +19,7 @@ export default async function ExperienceSection({
 
   const presentLabel = tCommon("present");
 
-  const entries: TimelineEntry[] = experiences.map((experience) => {
+  const items: AccordionItem[] = experiences.map((experience) => {
     const duration = calculateDuration(
       experience.start_date,
       experience.end_date
@@ -35,9 +35,11 @@ export default async function ExperienceSection({
       }
     }
 
+    const name = pickLocalized(locale, experience.name_th, experience.name_en);
+
     return {
       id: experience.id,
-      title: pickLocalized(locale, experience.name_th, experience.name_en),
+      title: name,
       subtitle: experience.position || undefined,
       period: formatPeriod(
         experience.start_date,
@@ -54,9 +56,7 @@ export default async function ExperienceSection({
       ),
       mediaUrl: experience.url,
       mediaType: experience.media_type,
-      logoAlt: t("logoAlt", {
-        name: pickLocalized(locale, experience.name_th, experience.name_en),
-      }),
+      logoAlt: t("logoAlt", { name }),
     };
   });
 
@@ -66,9 +66,8 @@ export default async function ExperienceSection({
       eyebrow={t("eyebrow")}
       title={t("title")}
       description={t("description")}
-      badge={t("countLabel", { count: entries.length })}
     >
-      <TimelineList entries={entries} />
+      <AccordionList items={items} />
     </SectionShell>
   );
 }

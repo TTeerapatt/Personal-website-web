@@ -19,7 +19,6 @@ export default async function SkillsSection({ skills }: SkillsSectionProps) {
       eyebrow={t("eyebrow")}
       title={t("title")}
       description={t("description")}
-      badge={t("countLabel", { count: skills.length })}
     >
       <Reveal>
         {/* Bleed to the section edges so the marquee can fade cleanly. */}

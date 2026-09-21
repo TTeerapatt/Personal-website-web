@@ -1,8 +1,8 @@
 {
   "main": {
     "header": "เว็บไซต์ส่วนตัว",
-    "metaTitle": "ผลงาน — เว็บไซต์ส่วนตัว",
-    "metaDescription": "เว็บไซต์ส่วนตัวรวมทักษะ ผลงาน ประสบการณ์ทำงาน และประวัติการศึกษา"
+    "metaTitle": "โปรเจค — เว็บไซต์ส่วนตัว",
+    "metaDescription": "เว็บไซต์ส่วนตัวรวมทักษะ โปรเจค ประสบการณ์ทำงาน และประวัติการศึกษา"
   },
   "common": {
     "skipToContent": "ข้ามไปที่เนื้อหา",
@@ -12,6 +12,8 @@
     "openMenu": "เปิดเมนู",
     "closeMenu": "ปิดเมนู",
     "close": "ปิด",
+    "expand": "ขยาย",
+    "collapse": "ย่อ",
     "language": "ภาษา",
     "previous": "ก่อนหน้า",
     "next": "ถัดไป",
@@ -33,7 +35,7 @@
     "home": "หน้าแรก",
     "about": "เกี่ยวกับฉัน",
     "skills": "ทักษะ",
-    "projects": "ผลงาน",
+    "projects": "โปรเจค",
     "experiences": "ประสบการณ์",
     "education": "การศึกษา",
     "contact": "ติดต่อ"
@@ -58,16 +60,16 @@
     "logoAlt": "โลโก้ {name}"
   },
   "projects": {
-    "eyebrow": "ผลงาน",
-    "title": "ผลงานที่คัดสรร",
-    "description": "ตัวอย่างผลงานที่ฉันออกแบบและพัฒนา",
-    "countLabel": "{count} ผลงาน",
+    "eyebrow": "โปรเจค",
+    "title": "โปรเจคทั้งหมดที่พัฒนา",
+    "description": "ตัวอย่างโปรเจคที่ฉันออกแบบและพัฒนา",
+    "countLabel": "{count} โปรเจค",
     "viewDetails": "ดูรายละเอียด",
     "sourceCode": "ซอร์สโค้ด",
     "liveDemo": "เปิดดูตัวอย่าง",
     "thumbnailAlt": "ภาพหน้าจอของ {name}",
     "noThumbnail": "ไม่มีภาพตัวอย่าง",
-    "dialogTitle": "รายละเอียดผลงาน"
+    "dialogTitle": "รายละเอียดโปรเจค"
   },
   "experiences": {
     "eyebrow": "ประสบการณ์",
