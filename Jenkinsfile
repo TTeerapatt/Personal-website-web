@@ -88,9 +88,9 @@ pipeline {
       steps {
         sh '''
           set -e
-          echo "Waiting for web on :${WEB_PORT}/Portfolio ..."
+          echo "Waiting for web on :${WEB_PORT}/portfolio ..."
           for i in $(seq 1 30); do
-            code="$(curl -s -o /dev/null -w "%{http_code}" "http://127.0.0.1:${WEB_PORT}/Portfolio" || true)"
+            code="$(curl -s -o /dev/null -w "%{http_code}" "http://127.0.0.1:${WEB_PORT}/portfolio" || true)"
             if echo "$code" | grep -Eq '^[123]'; then
               echo "Web is healthy (HTTP $code)"
               exit 0
@@ -110,7 +110,7 @@ pipeline {
 
   post {
     success {
-      echo "personal-website-web #${env.BUILD_NUMBER} succeeded → http://127.0.0.1:${params.WEB_PORT}/Portfolio"
+      echo "personal-website-web #${env.BUILD_NUMBER} succeeded → http://127.0.0.1:${params.WEB_PORT}/portfolio"
     }
     failure {
       echo "personal-website-web #${env.BUILD_NUMBER} failed"
