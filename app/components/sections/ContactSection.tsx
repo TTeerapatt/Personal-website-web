@@ -37,97 +37,87 @@ export default async function ContactSection({
       description={t("description")}
     >
       <Reveal>
-        <div className="relative mx-auto max-w-3xl overflow-hidden rounded-3xl bg-[var(--brand-primary)] p-6 text-white shadow-[0_18px_44px_rgba(11,31,58,0.24)] sm:p-9">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -top-16 -right-10 h-56 w-56 rounded-full bg-[rgba(47,111,237,0.28)] blur-3xl"
-          />
+        <div className="mx-auto max-w-2xl rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-card)] sm:p-8">
+          {displayName ? (
+            <p className="text-center text-[17px] font-semibold text-[var(--text-primary)] sm:text-[18px]">
+              {displayName}
+            </p>
+          ) : null}
 
-          <div className="relative">
-            {displayName ? (
-              <p className="text-[19px] font-bold sm:text-[22px]">
-                {displayName}
-              </p>
+          <dl
+            className={`divide-y divide-[var(--border)] ${
+              displayName ? "mt-6" : ""
+            }`}
+          >
+            {email ? (
+              <div className="flex items-center gap-4 py-4 first:pt-0">
+                <HiOutlineMail
+                  aria-hidden="true"
+                  className="shrink-0 text-[20px] text-[var(--brand-highlight)]"
+                />
+                <div className="min-w-0 flex-1">
+                  <dt className="text-[12px] text-[var(--text-muted)]">
+                    {t("emailLabel")}
+                  </dt>
+                  <dd className="truncate">
+                    <a
+                      href={`mailto:${email}`}
+                      className="text-[15px] font-medium text-[var(--text-primary)] transition hover:text-[var(--brand-highlight)]"
+                    >
+                      {email}
+                    </a>
+                  </dd>
+                </div>
+                <CopyEmailButton email={email} />
+              </div>
             ) : null}
 
-            <dl className="mt-6 space-y-4">
-              {email ? (
-                <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-[19px] ring-1 ring-white/20">
-                    <HiOutlineMail aria-hidden="true" />
-                  </span>
-
-                  <div className="min-w-0 flex-1">
-                    <dt className="text-[11.5px] font-semibold tracking-[0.12em] text-white/55 uppercase">
-                      {t("emailLabel")}
-                    </dt>
-                    <dd className="truncate">
-                      <a
-                        href={`mailto:${email}`}
-                        className="text-[14px] font-semibold break-all text-white transition hover:text-white/80 sm:text-[15px]"
-                      >
-                        {email}
-                      </a>
-                    </dd>
-                  </div>
-
-                  <CopyEmailButton email={email} />
-                </div>
-              ) : null}
-
-              {phone && telHref ? (
-                <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-[19px] ring-1 ring-white/20">
-                    <HiOutlinePhone aria-hidden="true" />
-                  </span>
-
-                  <div className="min-w-0 flex-1">
-                    <dt className="text-[11.5px] font-semibold tracking-[0.12em] text-white/55 uppercase">
-                      {t("phoneLabel")}
-                    </dt>
-                    <dd>
-                      <a
-                        href={telHref}
-                        className="text-[14px] font-semibold text-white transition hover:text-white/80 sm:text-[15px]"
-                      >
-                        {phone}
-                      </a>
-                    </dd>
-                  </div>
-                </div>
-              ) : null}
-            </dl>
-
-            <div className="mt-8 flex flex-col gap-6 border-t border-white/12 pt-6 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="mb-3 text-[11.5px] font-semibold tracking-[0.12em] text-white/55 uppercase">
-                  {t("socialLabel")}
-                </p>
-                <SocialLinks
-                  contact={contact}
-                  fallbackGithubUrl={fallbackGithubUrl}
-                  tone="inverse"
-                  labels={{
-                    github: t("github"),
-                    linkedin: t("linkedin"),
-                    facebook: t("facebook"),
-                    instagram: t("instagram"),
-                  }}
+            {phone && telHref ? (
+              <div className="flex items-center gap-4 py-4 last:pb-0">
+                <HiOutlinePhone
+                  aria-hidden="true"
+                  className="shrink-0 text-[20px] text-[var(--brand-highlight)]"
                 />
+                <div className="min-w-0 flex-1">
+                  <dt className="text-[12px] text-[var(--text-muted)]">
+                    {t("phoneLabel")}
+                  </dt>
+                  <dd>
+                    <a
+                      href={telHref}
+                      className="text-[15px] font-medium text-[var(--text-primary)] transition hover:text-[var(--brand-highlight)]"
+                    >
+                      {phone}
+                    </a>
+                  </dd>
+                </div>
               </div>
+            ) : null}
+          </dl>
 
-              {email ? (
-                <ActionLink
-                  href={`mailto:${email}`}
-                  variant="outline"
-                  external={false}
-                  className="w-full justify-center sm:w-auto"
-                >
-                  <HiOutlineMail aria-hidden="true" className="text-[17px]" />
-                  {t("sendEmail")}
-                </ActionLink>
-              ) : null}
-            </div>
+          <div className="mt-6 flex flex-col items-center gap-5 border-t border-[var(--border)] pt-6 sm:flex-row sm:justify-between">
+            <SocialLinks
+              contact={contact}
+              fallbackGithubUrl={fallbackGithubUrl}
+              labels={{
+                github: t("github"),
+                linkedin: t("linkedin"),
+                facebook: t("facebook"),
+                instagram: t("instagram"),
+              }}
+            />
+
+            {email ? (
+              <ActionLink
+                href={`mailto:${email}`}
+                variant="primary"
+                external={false}
+                className="w-full sm:w-auto"
+              >
+                <HiOutlineMail aria-hidden="true" className="text-[17px]" />
+                {t("sendEmail")}
+              </ActionLink>
+            ) : null}
           </div>
         </div>
       </Reveal>

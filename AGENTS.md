@@ -35,7 +35,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 ## 1) ภาพรวมโปรเจกต์
 
 - **ชื่อ:** `personal-website-web` (Next.js App Router, Next 16)
-- **basePath:** `/personal-website`
+- **basePath:** `/Portfolio` (ตัวพิมพ์ใหญ่-เล็กมีผล)
 - **Backend:** `NEXT_PUBLIC_BACKEND_URL` เช่น `http://localhost:3006/personal-website/api/`
   (ต้องมี prefix `/personal-website/api/` และปิดท้ายด้วย `/`)
 - **พอร์ต Docker/Jenkins:** `3008` (api = `3006`, admin = `3007`)
@@ -50,8 +50,8 @@ npm run lint
 npm run typecheck
 ```
 
-Dev URL: `http://localhost:3000/personal-website`
-Docker URL: `http://localhost:3008/personal-website`
+Dev URL: `http://localhost:3000/Portfolio`
+Docker URL: `http://localhost:3008/Portfolio`
 
 ### Env
 

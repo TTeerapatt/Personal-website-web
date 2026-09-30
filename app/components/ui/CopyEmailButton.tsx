@@ -34,7 +34,7 @@ export default function CopyEmailButton({ email }: CopyEmailButtonProps) {
       onClick={handleCopy}
       aria-label={isCopied ? t("copiedEmail") : t("copyEmail")}
       title={isCopied ? t("copiedEmail") : t("copyEmail")}
-      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-[18px] text-white ring-1 ring-white/20 transition hover:bg-white/20"
+      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-[17px] text-[var(--text-muted)] transition hover:bg-[var(--surface-muted)] hover:text-[var(--brand-primary)]"
     >
       {isCopied ? (
         <HiOutlineCheck aria-hidden="true" />

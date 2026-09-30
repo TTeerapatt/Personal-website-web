@@ -4,7 +4,7 @@ import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin("./app/i18n/request.ts");
 
 const nextConfig: NextConfig = {
-  basePath: "/personal-website",
+  basePath: "/Portfolio",
   output: "standalone",
   devIndicators: false,
 };

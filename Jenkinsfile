@@ -39,6 +39,21 @@ pipeline {
       }
     }
 
+    stage('Validate') {
+      steps {
+        sh '''
+          set -e
+          case "${NEXT_PUBLIC_BACKEND_URL}" in
+            http://*/|https://*/) ;;
+            *)
+              echo "NEXT_PUBLIC_BACKEND_URL must start with http(s):// and end with / (got: ${NEXT_PUBLIC_BACKEND_URL})"
+              exit 1
+              ;;
+          esac
+        '''
+      }
+    }
+
     stage('Build image') {
       steps {
         sh '''
@@ -60,6 +75,8 @@ pipeline {
           export NEXT_PUBLIC_BACKEND_URL="${NEXT_PUBLIC_BACKEND_URL}"
           export WEB_PORT="${WEB_PORT}"
           docker compose up -d --remove-orphans personal-website-web
+          # Each build leaves the previous image untagged; drop them to save disk.
+          docker image prune -f --filter "label=com.docker.compose.project=${COMPOSE_PROJECT_NAME}" || true
         '''
       }
     }
@@ -71,9 +88,9 @@ pipeline {
       steps {
         sh '''
           set -e
-          echo "Waiting for web on :${WEB_PORT}/personal-website ..."
+          echo "Waiting for web on :${WEB_PORT}/Portfolio ..."
           for i in $(seq 1 30); do
-            code="$(curl -s -o /dev/null -w "%{http_code}" "http://127.0.0.1:${WEB_PORT}/personal-website" || true)"
+            code="$(curl -s -o /dev/null -w "%{http_code}" "http://127.0.0.1:${WEB_PORT}/Portfolio" || true)"
             if echo "$code" | grep -Eq '^[123]'; then
               echo "Web is healthy (HTTP $code)"
               exit 0
@@ -93,7 +110,7 @@ pipeline {
 
   post {
     success {
-      echo "personal-website-web #${env.BUILD_NUMBER} succeeded → http://127.0.0.1:${params.WEB_PORT}/personal-website"
+      echo "personal-website-web #${env.BUILD_NUMBER} succeeded → http://127.0.0.1:${params.WEB_PORT}/Portfolio"
     }
     failure {
       echo "personal-website-web #${env.BUILD_NUMBER} failed"

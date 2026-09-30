@@ -17,7 +17,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000/personal-website — note the `/personal-website`
+Open http://localhost:3000/Portfolio — note the `/Portfolio`
 `basePath` configured in `next.config.ts`.
 
 ## Environment
@@ -69,7 +69,18 @@ NEXT_PUBLIC_BACKEND_URL=https://example.com/personal-website/api/ \
   docker compose up -d --build personal-website-web
 ```
 
-Serves on `${WEB_PORT:-3008}` → `http://localhost:3008/personal-website`.
+Serves on `${WEB_PORT:-3008}` → `http://localhost:3008/Portfolio`.
+
+`NEXT_PUBLIC_BACKEND_URL` is baked into the image, so changing it requires a
+rebuild. Behind a reverse proxy, forward `/Portfolio` (case-sensitive, no path
+rewrite) to the container on port 3008.
+
+## Jenkins
+
+`Jenkinsfile` validates `NEXT_PUBLIC_BACKEND_URL`, runs
+`docker compose build` / `up -d`, prunes the previous untagged image, and polls
+`http://127.0.0.1:${WEB_PORT}/Portfolio` until it answers. Parameters:
+`DEPLOY`, `NEXT_PUBLIC_BACKEND_URL`, `WEB_PORT`.
 
 ## Conventions
 
